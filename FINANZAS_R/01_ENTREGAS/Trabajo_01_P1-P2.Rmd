@@ -1,0 +1,54 @@
+---
+title: "Trabajo_01_P1-P2"
+output:s html_document
+---
+
+# 1. Descripción de la solución
+
+## ¿Qué soluciona?
+
+En Scania Chile, la cotización de contratos de mantención puede depender de planillas y criterios distintos, lo que genera diferencias entre cotizaciones, riesgo de errores y poca trazabilidad. Esta solución estandariza el cálculo para estimar una tarifa de mantención **(\$/km)** y proyectar el costo mensual y total del contrato.
+
+## ¿A quién impacta?
+
+-   **Usuarios internos:** fuerza de ventas (cotizaciones rápidas y comparables), servicios/operaciones (validación de supuestos), jefaturas (consistencia).
+-   **Clientes:** empresas de transporte que requieren estimar su costo operacional y comparar escenarios de contrato.
+
+## ¿Cómo lo soluciona?
+
+La aplicación calcula una tarifa **\$/km** con un plan preventivo cíclico (4 mantenciones por ciclo), la ajusta por factores del negocio (**ejes, zona y operación**) y proyecta el pago mensual aplicando una indexación estimada **80% USD + 20% UF**. La salida principal es una **tabla mensual** (proyección) y un resumen ejecutivo de la cotización.
+
+## Periodicidad
+
+-   Uso **por cotización** (cada propuesta comercial).
+-   Ajuste **mensual** de supuestos de indexación (USD/UF) según el último mes cerrado o una estimación.
+
+## Alcance
+
+**Considera:** - Plan preventivo cíclico (4 MTTO por ciclo). - Factores por ejes, zona y operación. - Proyección mensual con indexación 80% USD + 20% UF. - Escenarios de uso mensual y plazo estándar del contrato.
+
+**No considera:** - Correctivos no planificados y fallas fuera del plan preventivo. - Detalle real por modelo/serie con repuestos específicos. - Diferencias por taller/ciudad y condiciones comerciales específicas (descuentos, escalas).
+
+------------------------------------------------------------------------
+
+# 2. Planificación del trabajo
+
+## Descriptor (breve)
+
+**Objetivo:** construir una herramienta simple y reproducible para cotizar contratos de mantención, entregando tarifa \$/km y proyección mensual (tabla) para estimar cuota y costo total del contrato.
+
+**Entregables del hito (P1 y P2):** - Documento con descripción de la solución. - Planificación con carta Gantt.
+
+## Carta Gantt
+
+| Semana | Actividad | Inicio | Fin | Apoyo clase |
+|---------------|---------------|--------------:|--------------:|---------------|
+| W1 | Redactar Punto 1 (qué soluciona, impacto, cómo, periodicidad, alcance) | Jue 15 | Sáb 17 | Clase Jue 15 |
+| W1 | Punto 2: descriptor + Gantt (tabla) + dejar listo Rmd | Vie 16 | Dom 18 | — |
+| **HITO** | **ENTREGA 1 (P1 + P2)** | **Dom 18** | **Dom 18** | — |
+| W2 | Avance del resto: implementar / desarrollar lo siguiente del proyecto | Lun 19 | Mié 21 | Clase Lun 19 |
+| W2 | Consolidar (documento / código / outputs) | Jue 22 | Dom 25 | Clase Jue 22 |
+| **HITO** | **ENTREGA 2 (resto, versión 1)** | **Dom 25** | **Dom 25** | — |
+| W3 | Ajustes + mejoras + evidencia (capturas, validaciones) | Lun 26 | Mié 28 | Clase Lun 26 |
+| W3 | Integración final + revisión | Jue 29 | Dom 01-feb | Clase Jue 29 |
+| **HITO** | **ENTREGA 3 (final)** | **Dom 01-feb** | **Dom 01-feb** | — |
