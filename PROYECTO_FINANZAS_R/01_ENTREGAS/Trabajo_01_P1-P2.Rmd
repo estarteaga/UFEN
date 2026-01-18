@@ -33,7 +33,7 @@ La aplicación calcula una tarifa **\$/km** con un plan preventivo cíclico (4 m
 
 # 2. Planificación del trabajo
 
-## Descriptor (breve)
+## Descriptor
 
 **Objetivo:** construir una herramienta simple y reproducible para cotizar contratos de mantención, entregando tarifa \$/km y proyección mensual (tabla) para estimar cuota y costo total del contrato.
 
