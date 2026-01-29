@@ -1,0 +1,23 @@
+COTIZACIÓN - CONTRATO DE MANTENCIÓN (PROTOTIPO)
+Scania Chile
+
+Fecha: 28-01-2026 19:14
+Cliente: Cliente
+
+PARÁMETROS
+- Ejes: 6x2
+- Zona: Zona 02 Centro
+- Operación: Larga distancia
+- Intervalo MTTO: 30000 km (1 ciclo = 4 mantenciones)
+- Uso mensual: 10000 km/mes
+- Plazo: 36 meses
+- Indexación mensual: 80% USD (0,5%) + 20% UF (0,2%)
+
+RESULTADOS
+- Tarifa mes 1 (CLP/km): 31.35
+- Pago estimado mes 1: CLP 313.493
+- Costo total estimado del contrato: CLP 12.203.565
+
+NOTAS
+- Valores estimados según supuestos del modelo (factores + indexación simple).
+- Documento de carácter demostrativo.
