@@ -3,7 +3,7 @@
 # - Se eliminó la visual "Carpeta de guardado fijo"
 # - Impresión multipágina: imprime SOLO la cotización en ventana limpia
 
-OUTPUT_DIR <- "C:/Users/sclear/OneDrive/FEN CIENCIA DATOS/RSTUDIO/UFEN/PROYECTO_FINANZAS_R/02_APP_CALCULADORA"
+OUTPUT_DIR <- "C:/Users/sclear/OneDrive/FEN CIENCIA DATOS/RSTUDIO/UFEN/PROYECTO_FINANZAS_R/01_ENTREGAS"
 
 # ---------------- Paquetes ----------------
 pkgs <- c("shiny","bslib","tidyverse","glue","lubridate","readr","htmltools","base64enc")
@@ -33,7 +33,7 @@ if (!file.exists(readme_path)) {
       "",
       "Ejecuta en la consola (cambia la ruta según donde lo ejecutes):",
       "",
-      "setwd(\"C:/Users/sclear/OneDrive/FEN CIENCIA DATOS/RSTUDIO/UFEN/PROYECTO_FINANZAS_R/02_APP_CALCULADORA\")",
+      "setwd(\"C:/Users/sclear/OneDrive/FEN CIENCIA DATOS/RSTUDIO/UFEN/PROYECTO_FINANZAS_R/01_ENTREGAS\")",
       "shiny::runApp(launch.browser = TRUE)",
       "",
       "Luego: completa los inputs y usa la pestaña 'Cotización (Imprimible)'.",
