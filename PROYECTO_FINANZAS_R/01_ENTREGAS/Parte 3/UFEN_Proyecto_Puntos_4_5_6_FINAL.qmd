@@ -1,0 +1,381 @@
+---
+title: "Proyecto Finanzas en R — Entrega Final (Puntos 4, 5 y 6)"
+author: "Esteban Arteaga"
+date: last-modified
+lang: es
+format:
+  html:
+    toc: true
+    toc-location: left
+    number-sections: true
+    code-fold: false
+    code-tools: true
+    code-overflow: wrap
+execute:
+  echo: true
+  eval: false
+  warning: false
+  message: false
+---
+
+```{=html}
+<style>
+/* Tarjetas (cards) más limpias */
+.card { margin: 0.75rem 0 1rem 0; }
+.card-header { font-weight: 600; }
+
+/* Evita cortes horizontales en diagramas anchos */
+.card-body { overflow-x: auto; }
+
+/* Centra Mermaid dentro de la tarjeta */
+.card-body .mermaid { display: flex; justify-content: center; }
+
+/* Mejora de lectura en listas */
+ul { margin-bottom: 0.75rem; }
+</style>
+```
+
+## Resumen ejecutivo y valor agregado
+
+La cotización de contratos de mantención suele depender de planillas y cálculos manuales, lo que genera:
+
+- Diferencias entre cotizaciones (fórmulas y supuestos no estandarizados).
+- Retrasos por iteraciones internas.
+- Mayor probabilidad de errores por digitación o uso de archivos desactualizados.
+
+La aplicación Shiny desarrollada en este proyecto ("Cotizador") estandariza el cálculo y entrega una cotización en **minutos**, dependiendo principalmente del tiempo que toma ingresar los datos y seleccionar las opciones.
+
+**Valor agregado para la fuerza de ventas (vehículos/servicios):**
+
+- **Reduce el tiempo de respuesta**: de un ciclo típico de **24–48 horas** (proceso vigente) a **minutos**.
+- **Consistencia**: mismas reglas para todos (menos discusiones internas y menos retrabajo).
+- **Mejor conversación comercial**: permite entregar una propuesta rápida y comparable.
+- **Presentación profesional**: salida clara y una vista imprimible para compartir con el cliente.
+
+**Valor agregado para el cliente:**
+
+- **Menor tiempo de espera** para recibir una propuesta.
+- **Transparencia**: supuestos visibles (factores e indexación) y cotización más fácil de revisar.
+- **Menos cambios posteriores** por errores de cálculo o supuestos inconsistentes.
+
+## Alcance del documento
+
+Este documento cubre los **puntos 4, 5 y 6** del proyecto del curso y deja una descripción clara de:
+
+- 4) Cómo funciona la solución (datos, validaciones, cálculo y diagramas).
+- 5) Cómo se podría publicar para uso real (despliegue).
+- 6) Qué monitorear para asegurar continuidad y calidad de resultados.
+
+---
+
+# Cómo renderizar y generar PDF
+
+## Render HTML (recomendado)
+
+1. Abrir este archivo `.qmd` en RStudio.
+2. Hacer click en **Render**.
+3. Se generará un HTML (ideal para compartir, revisar e imprimir).
+
+## Generar PDF
+
+El método más estable para obtener PDF en distintos equipos es:
+
+1. Renderizar a **HTML**.
+2. Abrir el HTML en el navegador.
+3. Usar **Imprimir → Guardar como PDF**.
+
+Esto evita dependencias adicionales (como LaTeX) y mantiene el formato de los diagramas y secciones.
+
+---
+
+# 4. Documentación
+
+## 4.1 Qué hace la solución y a quién impacta
+
+**Situación actual en la compañía:** La generación de cotizaciones para **contratos de mantención** depende de cálculos manuales (planillas Excel, supuestos no siempre documentados y revisiones internas). Esto hace que el tiempo de respuesta habitual sea de **24 a 48 horas**, principalmente por iteraciones, validaciones y diferencias en criterios de cálculo.
+
+**Problema que resuelve:**
+
+- Cotizaciones inconsistentes (distintas fórmulas o supuestos según la persona).
+- Retrabajo y demoras por revisiones internas.
+- Riesgo de errores por digitación o uso de archivos desactualizados.
+
+**Solución y valor agregado:** El **Cotizador** estandariza el proceso y permite generar una cotización **en minutos**, limitado principalmente al tiempo que toma ingresar los datos y seleccionar las opciones. Con esto se logra:
+
+- **Autonomía** para cotizar (sin depender de una sola persona o de planillas “propias”).
+- **Estandarización** de reglas y supuestos (mismo criterio para todas las cotizaciones).
+- **Menor variabilidad** entre propuestas y menor retrabajo por correcciones posteriores.
+
+**Usuarios principales:** equipo comercial y/o operaciones.
+
+## 4.2 Datos de entrada
+
+A continuación se listan los campos más importantes y para qué sirven.
+
+| Campo | Ejemplo | Para qué se usa |
+|---|---|---|
+| Cliente | "Transportes X" | Identificación en el reporte |
+| Fecha inicio | 2026-02-01 | Genera el calendario mensual |
+| Intervalo mantención (km) | 30.000 | Define los km del ciclo |
+| Costo por ciclo (CLP) | 3.600.000 | Base del costo a repartir |
+| Uso mensual (km/mes) | 10.000 | Calcula el pago mensual |
+| Plazo (meses) | 36 | Cuántos meses se proyecta |
+| Ejes | "6x2" | Factor por configuración |
+| Zona | "Zona 02 Centro" | Factor por zona |
+| Operación | "Minería" | Factor por exigencia |
+| USD mensual (%) | 0,5 | Supuesto de reajuste |
+| UF mensual (%) | 0,2 | Supuesto de reajuste |
+| Peso USD (%) | 80 | Cuánto influye USD vs UF |
+
+## 4.3 Limpieza y validaciones
+
+La app considera que la digitación puede venir en formato chileno:
+
+- Miles con punto: `3.600.000`
+- Decimales con coma: `0,5`
+
+**Qué se hace con esos datos:**
+
+1. Se limpia el texto (quita puntos de miles, convierte coma decimal a punto).
+2. Se convierte a número.
+3. Se validan condiciones mínimas:
+
+- Intervalo, costo, uso mensual y meses deben ser **mayores a cero**.
+- USD/UF mensual no puede ser **menor o igual a -100%**.
+
+Estas validaciones no corrigen un dato mal ingresado, pero sí evitan errores graves (por ejemplo, meses = 0 o porcentajes imposibles).
+
+## 4.4 Cómo se calcula
+
+### Paso 1 — Factores por operación
+
+Se aplica un factor multiplicativo según:
+
+- **Ejes** (ej.: 6x2 vs 8x4)
+- **Zona**
+- **Tipo de operación** (ej.: minería suele tener mayor exigencia)
+
+**Factor total = factor_ejes × factor_zona × factor_operación**
+
+### Paso 2 — Tarifa base (CLP/km)
+
+Se define el kilometraje de un ciclo como:
+
+**km_ciclo = intervalo_km × 4**
+
+Luego:
+
+**tarifa_base = costo_ciclo / km_ciclo**
+
+### Paso 3 — Tarifa con factores
+
+**tarifa_ajustada = tarifa_base × factor_total**
+
+### Paso 4 — Reajuste mensual (USD/UF)
+
+Se proyecta una indexación mensual con dos supuestos:
+
+- Un porcentaje mensual para USD
+- Un porcentaje mensual para UF
+
+Y se combina según el **peso** definido (por ejemplo 80% USD y 20% UF).
+
+### Paso 5 — Pago mensual y total
+
+Cada mes:
+
+**pago_mes = tarifa_mes × uso_mensual_km**
+
+Total contrato:
+
+**total_contrato = suma(pago_mes de todos los meses)**
+
+## 4.5 Diagramas
+
+### 4.5.1 Flujo de datos y proceso
+
+::: {.card}
+::: {.card-header}
+Flujo de datos y proceso
+:::
+
+::: {.card-body}
+```{mermaid}
+flowchart LR
+  U[Usuario ingresa datos] --> V[Validación y limpieza]
+  V --> C[Cálculo de tarifa y proyección]
+  C --> O[Resultados en pantalla]
+  O --> R[Cotización imprimible]
+  R --> P[Imprimir / Guardar como PDF]
+```
+:::
+:::
+
+### 4.5.2 Arquitectura
+
+::: {.card}
+::: {.card-header}
+Arquitectura (alto nivel)
+:::
+
+::: {.card-body}
+```{mermaid}
+flowchart TB
+  B[Navegador del usuario] <--> A[App Shiny (app.R)]
+  A --> M[Motor de cálculo<br/>calcular_cotizacion()]
+  M --> F[Factores<br/>(ejes / zona / operación)]
+  A --> R[Reporte imprimible<br/>(HTML + CSS de impresión)]
+  A --> L[Registro opcional<br/>(logs de uso / errores)]
+```
+:::
+:::
+
+### 4.5.3 Ejemplo adicional con DiagrammeR
+
+::: {.card}
+::: {.card-header}
+Diagrama alternativo (DiagrammeR) — referencia
+:::
+
+::: {.card-body}
+```{r, eval=FALSE}
+DiagrammeR::grViz("digraph {
+  graph [layout = dot, rankdir = LR]
+  node [shape = rectangle, style = filled, fillcolor = Linen]
+
+  rec1 [label = 'Inputs']
+  rec2 [label = 'Limpieza / validación']
+  rec3 [label = 'Cálculo tarifa']
+  rec4 [label = 'Proyección']
+  rec5 [label = 'Cotización imprimible']
+  rec6 [label = 'PDF (navegador)']
+
+  rec1 -> rec2 -> rec3 -> rec4 -> rec5 -> rec6
+}")
+```
+:::
+:::
+
+## 4.6 Model Card
+
+Esta ficha resume el “modelo” usado por la app (en este caso, es un cálculo con reglas).
+
+- **Nombre / versión:** Cotizador Mantención v1.0
+- **Qué entrega:** tarifa CLP/km, pagos mensuales proyectados y total del contrato.
+- **Entradas:** ver sección 4.2.
+- **Transformaciones:** ver sección 4.3.
+- **Supuestos clave:**
+  - 1 ciclo se define como `intervalo_km × 4`.
+  - Los porcentajes mensuales de USD/UF se mantienen constantes (son supuestos).
+  - Los factores por ejes/zona/operación son fijos y multiplicativos.
+- **Uso previsto:** cotización preliminar estandarizada.
+- **No previsto:** reemplazar revisión final comercial/financiera ni condiciones legales del contrato.
+- **Riesgos típicos:**
+  - Error de digitación (porcentajes muy grandes).
+  - Uso de supuestos de USD/UF desactualizados.
+- **Mantenimiento recomendado:** revisión mensual o trimestral de factores y supuestos.
+
+---
+
+# 5. Despliegue
+
+En este proyecto, “producción” significa que la solución queda disponible para uso real (más que una demo local), con control de versiones y un mínimo de orden.
+
+## 5.1 Opciones de publicación
+
+1. **shinyapps.io (rápido para demo académica)**
+   - Ventaja: publicación rápida.
+   - Desventaja: límites según plan y menor control.
+
+2. **Shiny Server (servidor propio)**
+   - Ventaja: control interno.
+   - Desventaja: requiere administración del servidor.
+
+3. **Posit Connect (enfoque empresa)**
+   - Ventaja: permisos, publicación ordenada, versionamiento.
+   - Desventaja: normalmente requiere licencia.
+
+## 5.2 Pasos recomendados
+
+1. **Orden del proyecto**
+   - `app.R`
+   - `assets/` (logo, etc.)
+   - `docs/` (documentación)
+
+2. **Control de versiones (Git)**
+   - Versiones v1.0, v1.1, etc., con registro de cambios.
+
+3. **Configuraciones sin rutas fijas**
+   - Evitar rutas locales específicas.
+   - Usar rutas relativas o variables de entorno.
+
+4. **Publicación**
+   - Publicar en la opción elegida (demo o uso interno).
+
+5. **Responsables**
+   - Definir responsables para actualizar factores y supuestos.
+
+---
+
+# 6. Monitoreo
+
+El monitoreo tiene dos partes:
+
+1. **Operación:** que la app cargue bien, no se caiga y responda rápido.
+2. **Sanidad del cálculo:** que los resultados sigan siendo razonables.
+
+## 6.1 Monitoreo de funcionamiento
+
+**Qué revisar:**
+
+- Disponibilidad (¿la app abre?).
+- Errores (validación o fallas inesperadas).
+- Tiempo de respuesta.
+
+**Implementación mínima:**
+
+- Registro de errores con fecha/hora y mensaje.
+- Revisión periódica para detectar problemas repetidos.
+
+## 6.2 Monitoreo de resultados
+
+Alarmas simples que ayudan a detectar problemas:
+
+- USD mensual o UF mensual fuera de rango razonable (ej.: mayor a 5% o menor a -5%).
+- Total del contrato igual a 0 o negativo.
+- Tarifas extremadamente altas o bajas respecto a lo habitual.
+
+## 6.3 Registro mínimo recomendado (log)
+
+Para auditoría y mejora continua, conviene registrar:
+
+- Fecha/hora
+- Inputs clave (km, costo, plazo, factores)
+- Outputs clave (tarifa, total)
+- Estado: OK / ERROR
+
+Ejemplo conceptual (referencia) para guardar un CSV:
+
+```{r, eval=FALSE}
+log_event <- function(path, evento) {
+  if (!file.exists(path)) {
+    readr::write_csv(evento, path)
+  } else {
+    readr::write_csv(evento, path, append = TRUE)
+  }
+}
+```
+
+## 6.4 Gobierno del cambio
+
+- Si cambian los **factores** (ejes/zona/operación), se registra como nueva versión.
+- Mantener 3 a 5 “casos de prueba” con inputs fijos y outputs esperados para detectar cambios inesperados.
+
+---
+
+# Plan de acción
+
+1. Renderizar el documento en **HTML** y verificar diagramas.
+2. Generar PDF usando el navegador (**Imprimir → Guardar como PDF**).
+3. Definir alternativa de despliegue (demo vs uso interno).
+4. Documentar monitoreo mínimo (errores + rangos razonables).

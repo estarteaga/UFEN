@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Esteban Arteaga">
+
+<title>Proyecto Finanzas en R — Entrega Final (Puntos 4, 5 y 6)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="UFEN_Proyecto_Puntos_4_5_6_FINAL_files/libs/clipboard/clipboard.min.js"></script>
+<script src="UFEN_Proyecto_Puntos_4_5_6_FINAL_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="UFEN_Proyecto_Puntos_4_5_6_FINAL_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="UFEN_Proyecto_Puntos_4_5_6_FINAL_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="UFEN_Proyecto_Puntos_4_5_6_FINAL_files/libs/quarto-html/popper.min.js"></script>
+<script src="UFEN_Proyecto_Puntos_4_5_6_FINAL_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="UFEN_Proyecto_Puntos_4_5_6_FINAL_files/libs/quarto-html/anchor.min.js"></script>
+<link href="UFEN_Proyecto_Puntos_4_5_6_FINAL_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="UFEN_Proyecto_Puntos_4_5_6_FINAL_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="UFEN_Proyecto_Puntos_4_5_6_FINAL_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="UFEN_Proyecto_Puntos_4_5_6_FINAL_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="UFEN_Proyecto_Puntos_4_5_6_FINAL_files/libs/bootstrap/bootstrap-0df8dfdce555b5e457e6102d33c50900.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="UFEN_Proyecto_Puntos_4_5_6_FINAL_files/libs/quarto-diagram/mermaid.min.js"></script>
+<script src="UFEN_Proyecto_Puntos_4_5_6_FINAL_files/libs/quarto-diagram/mermaid-init.js"></script>
+<link href="UFEN_Proyecto_Puntos_4_5_6_FINAL_files/libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#resumen-ejecutivo-y-valor-agregado" id="toc-resumen-ejecutivo-y-valor-agregado" class="nav-link active" data-scroll-target="#resumen-ejecutivo-y-valor-agregado"><span class="header-section-number">0.1</span> Resumen ejecutivo y valor agregado</a></li>
+  <li><a href="#alcance-del-documento" id="toc-alcance-del-documento" class="nav-link" data-scroll-target="#alcance-del-documento"><span class="header-section-number">0.2</span> Alcance del documento</a></li>
+  <li><a href="#cómo-renderizar-y-generar-pdf" id="toc-cómo-renderizar-y-generar-pdf" class="nav-link" data-scroll-target="#cómo-renderizar-y-generar-pdf"><span class="header-section-number">1</span> Cómo renderizar y generar PDF</a>
+  <ul class="collapse">
+  <li><a href="#render-html-recomendado" id="toc-render-html-recomendado" class="nav-link" data-scroll-target="#render-html-recomendado"><span class="header-section-number">1.1</span> Render HTML (recomendado)</a></li>
+  <li><a href="#generar-pdf" id="toc-generar-pdf" class="nav-link" data-scroll-target="#generar-pdf"><span class="header-section-number">1.2</span> Generar PDF</a></li>
+  </ul></li>
+  <li><a href="#documentación" id="toc-documentación" class="nav-link" data-scroll-target="#documentación"><span class="header-section-number">2</span> 4. Documentación</a>
+  <ul class="collapse">
+  <li><a href="#qué-hace-la-solución-y-a-quién-impacta" id="toc-qué-hace-la-solución-y-a-quién-impacta" class="nav-link" data-scroll-target="#qué-hace-la-solución-y-a-quién-impacta"><span class="header-section-number">2.1</span> 4.1 Qué hace la solución y a quién impacta</a></li>
+  <li><a href="#datos-de-entrada" id="toc-datos-de-entrada" class="nav-link" data-scroll-target="#datos-de-entrada"><span class="header-section-number">2.2</span> 4.2 Datos de entrada</a></li>
+  <li><a href="#limpieza-y-validaciones" id="toc-limpieza-y-validaciones" class="nav-link" data-scroll-target="#limpieza-y-validaciones"><span class="header-section-number">2.3</span> 4.3 Limpieza y validaciones</a></li>
+  <li><a href="#cómo-se-calcula" id="toc-cómo-se-calcula" class="nav-link" data-scroll-target="#cómo-se-calcula"><span class="header-section-number">2.4</span> 4.4 Cómo se calcula</a>
+  <ul class="collapse">
+  <li><a href="#paso-1-factores-por-operación" id="toc-paso-1-factores-por-operación" class="nav-link" data-scroll-target="#paso-1-factores-por-operación"><span class="header-section-number">2.4.1</span> Paso 1 — Factores por operación</a></li>
+  <li><a href="#paso-2-tarifa-base-clpkm" id="toc-paso-2-tarifa-base-clpkm" class="nav-link" data-scroll-target="#paso-2-tarifa-base-clpkm"><span class="header-section-number">2.4.2</span> Paso 2 — Tarifa base (CLP/km)</a></li>
+  <li><a href="#paso-3-tarifa-con-factores" id="toc-paso-3-tarifa-con-factores" class="nav-link" data-scroll-target="#paso-3-tarifa-con-factores"><span class="header-section-number">2.4.3</span> Paso 3 — Tarifa con factores</a></li>
+  <li><a href="#paso-4-reajuste-mensual-usduf" id="toc-paso-4-reajuste-mensual-usduf" class="nav-link" data-scroll-target="#paso-4-reajuste-mensual-usduf"><span class="header-section-number">2.4.4</span> Paso 4 — Reajuste mensual (USD/UF)</a></li>
+  <li><a href="#paso-5-pago-mensual-y-total" id="toc-paso-5-pago-mensual-y-total" class="nav-link" data-scroll-target="#paso-5-pago-mensual-y-total"><span class="header-section-number">2.4.5</span> Paso 5 — Pago mensual y total</a></li>
+  </ul></li>
+  <li><a href="#diagramas" id="toc-diagramas" class="nav-link" data-scroll-target="#diagramas"><span class="header-section-number">2.5</span> 4.5 Diagramas</a>
+  <ul class="collapse">
+  <li><a href="#flujo-de-datos-y-proceso" id="toc-flujo-de-datos-y-proceso" class="nav-link" data-scroll-target="#flujo-de-datos-y-proceso"><span class="header-section-number">2.5.1</span> 4.5.1 Flujo de datos y proceso</a></li>
+  <li><a href="#arquitectura" id="toc-arquitectura" class="nav-link" data-scroll-target="#arquitectura"><span class="header-section-number">2.5.2</span> 4.5.2 Arquitectura</a></li>
+  <li><a href="#ejemplo-adicional-con-diagrammer" id="toc-ejemplo-adicional-con-diagrammer" class="nav-link" data-scroll-target="#ejemplo-adicional-con-diagrammer"><span class="header-section-number">2.5.3</span> 4.5.3 Ejemplo adicional con DiagrammeR</a></li>
+  </ul></li>
+  <li><a href="#model-card-ficha-simple-del-modelo-y-reglas" id="toc-model-card-ficha-simple-del-modelo-y-reglas" class="nav-link" data-scroll-target="#model-card-ficha-simple-del-modelo-y-reglas"><span class="header-section-number">2.6</span> 4.6 Model Card (ficha simple del modelo y reglas)</a></li>
+  </ul></li>
+  <li><a href="#despliegue" id="toc-despliegue" class="nav-link" data-scroll-target="#despliegue"><span class="header-section-number">3</span> 5. Despliegue</a>
+  <ul class="collapse">
+  <li><a href="#opciones-de-publicación" id="toc-opciones-de-publicación" class="nav-link" data-scroll-target="#opciones-de-publicación"><span class="header-section-number">3.1</span> 5.1 Opciones de publicación</a></li>
+  <li><a href="#pasos-recomendados" id="toc-pasos-recomendados" class="nav-link" data-scroll-target="#pasos-recomendados"><span class="header-section-number">3.2</span> 5.2 Pasos recomendados</a></li>
+  </ul></li>
+  <li><a href="#monitoreo" id="toc-monitoreo" class="nav-link" data-scroll-target="#monitoreo"><span class="header-section-number">4</span> 6. Monitoreo</a>
+  <ul class="collapse">
+  <li><a href="#monitoreo-de-funcionamiento" id="toc-monitoreo-de-funcionamiento" class="nav-link" data-scroll-target="#monitoreo-de-funcionamiento"><span class="header-section-number">4.1</span> 6.1 Monitoreo de funcionamiento</a></li>
+  <li><a href="#monitoreo-de-resultados" id="toc-monitoreo-de-resultados" class="nav-link" data-scroll-target="#monitoreo-de-resultados"><span class="header-section-number">4.2</span> 6.2 Monitoreo de resultados</a></li>
+  <li><a href="#registro-mínimo-recomendado-log" id="toc-registro-mínimo-recomendado-log" class="nav-link" data-scroll-target="#registro-mínimo-recomendado-log"><span class="header-section-number">4.3</span> 6.3 Registro mínimo recomendado (log)</a></li>
+  <li><a href="#gobierno-del-cambio" id="toc-gobierno-del-cambio" class="nav-link" data-scroll-target="#gobierno-del-cambio"><span class="header-section-number">4.4</span> 6.4 Gobierno del cambio</a></li>
+  </ul></li>
+  <li><a href="#plan-de-acción" id="toc-plan-de-acción" class="nav-link" data-scroll-target="#plan-de-acción"><span class="header-section-number">5</span> Plan de acción</a></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Proyecto Finanzas en R — Entrega Final (Puntos 4, 5 y 6)</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Código</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Autor/a</div>
+    <div class="quarto-title-meta-contents">
+             <p>Esteban Arteaga </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Fecha de publicación</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">8 de febrero de 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<style>
+/* Tarjetas (cards) más limpias */
+.card { margin: 0.75rem 0 1rem 0; }
+.card-header { font-weight: 600; }
+
+/* Evita cortes horizontales en diagramas anchos */
+.card-body { overflow-x: auto; }
+
+/* Centra Mermaid dentro de la tarjeta */
+.card-body .mermaid { display: flex; justify-content: center; }
+
+/* Mejora de lectura en listas */
+ul { margin-bottom: 0.75rem; }
+</style>
+<section id="resumen-ejecutivo-y-valor-agregado" class="level2" data-number="0.1">
+<h2 data-number="0.1" class="anchored" data-anchor-id="resumen-ejecutivo-y-valor-agregado"><span class="header-section-number">0.1</span> Resumen ejecutivo y valor agregado</h2>
+<p>La cotización de contratos de mantención suele depender de planillas y cálculos manuales, lo que genera:</p>
+<ul>
+<li>Diferencias entre cotizaciones (fórmulas y supuestos no estandarizados).</li>
+<li>Retrasos por iteraciones internas.</li>
+<li>Mayor probabilidad de errores por digitación o uso de archivos desactualizados.</li>
+</ul>
+<p>La aplicación Shiny desarrollada en este proyecto (“Cotizador”) estandariza el cálculo y entrega una cotización en <strong>minutos</strong>, dependiendo principalmente del tiempo que toma ingresar los datos y seleccionar las opciones.</p>
+<p><strong>Valor agregado para la fuerza de ventas (vehículos/servicios):</strong></p>
+<ul>
+<li><strong>Reduce el tiempo de respuesta</strong>: de un ciclo típico de <strong>24–48 horas</strong> (proceso vigente) a <strong>minutos</strong>.</li>
+<li><strong>Consistencia</strong>: mismas reglas para todos (menos discusiones internas y menos retrabajo).</li>
+<li><strong>Mejor conversación comercial</strong>: permite entregar una propuesta rápida y comparable.</li>
+<li><strong>Presentación profesional</strong>: salida clara y una vista imprimible para compartir con el cliente.</li>
+</ul>
+<p><strong>Valor agregado para el cliente:</strong></p>
+<ul>
+<li><strong>Menor tiempo de espera</strong> para recibir una propuesta.</li>
+<li><strong>Transparencia</strong>: supuestos visibles (factores e indexación) y cotización más fácil de revisar.</li>
+<li><strong>Menos cambios posteriores</strong> por errores de cálculo o supuestos inconsistentes.</li>
+</ul>
+</section>
+<section id="alcance-del-documento" class="level2" data-number="0.2">
+<h2 data-number="0.2" class="anchored" data-anchor-id="alcance-del-documento"><span class="header-section-number">0.2</span> Alcance del documento</h2>
+<p>Este documento cubre los <strong>puntos 4, 5 y 6</strong> del proyecto del curso y deja una descripción clara de:</p>
+<ul>
+<li><ol start="4" type="1">
+<li>Cómo funciona la solución (datos, validaciones, cálculo y diagramas).</li>
+</ol></li>
+<li><ol start="5" type="1">
+<li>Cómo se podría publicar para uso real (despliegue).</li>
+</ol></li>
+<li><ol start="6" type="1">
+<li>Qué monitorear para asegurar continuidad y calidad de resultados.</li>
+</ol></li>
+</ul>
+<hr>
+</section>
+<section id="cómo-renderizar-y-generar-pdf" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Cómo renderizar y generar PDF</h1>
+<section id="render-html-recomendado" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="render-html-recomendado"><span class="header-section-number">1.1</span> Render HTML (recomendado)</h2>
+<ol type="1">
+<li>Abrir este archivo <code>.qmd</code> en RStudio.</li>
+<li>Hacer click en <strong>Render</strong>.</li>
+<li>Se generará un HTML (ideal para compartir, revisar e imprimir).</li>
+</ol>
+</section>
+<section id="generar-pdf" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="generar-pdf"><span class="header-section-number">1.2</span> Generar PDF</h2>
+<p>El método más estable para obtener PDF en distintos equipos es:</p>
+<ol type="1">
+<li>Renderizar a <strong>HTML</strong>.</li>
+<li>Abrir el HTML en el navegador.</li>
+<li>Usar <strong>Imprimir → Guardar como PDF</strong>.</li>
+</ol>
+<p>Esto evita dependencias adicionales (como LaTeX) y mantiene el formato de los diagramas y secciones.</p>
+<hr>
+</section>
+</section>
+<section id="documentación" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> 4. Documentación</h1>
+<section id="qué-hace-la-solución-y-a-quién-impacta" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="qué-hace-la-solución-y-a-quién-impacta"><span class="header-section-number">2.1</span> 4.1 Qué hace la solución y a quién impacta</h2>
+<p><strong>Situación actual en la compañía:</strong> La generación de cotizaciones para <strong>contratos de mantención</strong> depende de cálculos manuales (planillas Excel, supuestos no siempre documentados y revisiones internas). Esto hace que el tiempo de respuesta habitual sea de <strong>24 a 48 horas</strong>, principalmente por iteraciones, validaciones y diferencias en criterios de cálculo.</p>
+<p><strong>Problema que resuelve:</strong></p>
+<ul>
+<li>Cotizaciones inconsistentes (distintas fórmulas o supuestos según la persona).</li>
+<li>Retrabajo y demoras por revisiones internas.</li>
+<li>Riesgo de errores por digitación o uso de archivos desactualizados.</li>
+</ul>
+<p><strong>Solución y valor agregado:</strong> El <strong>Cotizador</strong> estandariza el proceso y permite generar una cotización <strong>en minutos</strong>, limitado principalmente al tiempo que toma ingresar los datos y seleccionar las opciones. Con esto se logra:</p>
+<ul>
+<li><strong>Autonomía</strong> para cotizar (sin depender de una sola persona o de planillas “propias”).</li>
+<li><strong>Estandarización</strong> de reglas y supuestos (mismo criterio para todas las cotizaciones).</li>
+<li><strong>Menor variabilidad</strong> entre propuestas y menor retrabajo por correcciones posteriores.</li>
+</ul>
+<p><strong>Usuarios principales:</strong> equipo comercial y/o operaciones.</p>
+</section>
+<section id="datos-de-entrada" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="datos-de-entrada"><span class="header-section-number">2.2</span> 4.2 Datos de entrada</h2>
+<p>A continuación se listan los campos más importantes y para qué sirven.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Campo</th>
+<th>Ejemplo</th>
+<th>Para qué se usa</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Cliente</td>
+<td>“Transportes X”</td>
+<td>Identificación en el reporte</td>
+</tr>
+<tr class="even">
+<td>Fecha inicio</td>
+<td>2026-02-01</td>
+<td>Genera el calendario mensual</td>
+</tr>
+<tr class="odd">
+<td>Intervalo mantención (km)</td>
+<td>30.000</td>
+<td>Define los km del ciclo</td>
+</tr>
+<tr class="even">
+<td>Costo por ciclo (CLP)</td>
+<td>3.600.000</td>
+<td>Base del costo a repartir</td>
+</tr>
+<tr class="odd">
+<td>Uso mensual (km/mes)</td>
+<td>10.000</td>
+<td>Calcula el pago mensual</td>
+</tr>
+<tr class="even">
+<td>Plazo (meses)</td>
+<td>36</td>
+<td>Cuántos meses se proyecta</td>
+</tr>
+<tr class="odd">
+<td>Ejes</td>
+<td>“6x2”</td>
+<td>Factor por configuración</td>
+</tr>
+<tr class="even">
+<td>Zona</td>
+<td>“Zona 02 Centro”</td>
+<td>Factor por zona</td>
+</tr>
+<tr class="odd">
+<td>Operación</td>
+<td>“Minería”</td>
+<td>Factor por exigencia</td>
+</tr>
+<tr class="even">
+<td>USD mensual (%)</td>
+<td>0,5</td>
+<td>Supuesto de reajuste</td>
+</tr>
+<tr class="odd">
+<td>UF mensual (%)</td>
+<td>0,2</td>
+<td>Supuesto de reajuste</td>
+</tr>
+<tr class="even">
+<td>Peso USD (%)</td>
+<td>80</td>
+<td>Cuánto influye USD vs UF</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="limpieza-y-validaciones" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="limpieza-y-validaciones"><span class="header-section-number">2.3</span> 4.3 Limpieza y validaciones</h2>
+<p>La app considera que la digitación puede venir en formato chileno:</p>
+<ul>
+<li>Miles con punto: <code>3.600.000</code></li>
+<li>Decimales con coma: <code>0,5</code></li>
+</ul>
+<p><strong>Qué se hace con esos datos:</strong></p>
+<ol type="1">
+<li>Se limpia el texto (quita puntos de miles, convierte coma decimal a punto).</li>
+<li>Se convierte a número.</li>
+<li>Se validan condiciones mínimas:</li>
+</ol>
+<ul>
+<li>Intervalo, costo, uso mensual y meses deben ser <strong>mayores a cero</strong>.</li>
+<li>USD/UF mensual no puede ser <strong>menor o igual a -100%</strong>.</li>
+</ul>
+<p>Estas validaciones no corrigen un dato mal ingresado, pero sí evitan errores graves (por ejemplo, meses = 0 o porcentajes imposibles).</p>
+</section>
+<section id="cómo-se-calcula" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="cómo-se-calcula"><span class="header-section-number">2.4</span> 4.4 Cómo se calcula</h2>
+<section id="paso-1-factores-por-operación" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="paso-1-factores-por-operación"><span class="header-section-number">2.4.1</span> Paso 1 — Factores por operación</h3>
+<p>Se aplica un factor multiplicativo según:</p>
+<ul>
+<li><strong>Ejes</strong> (ej.: 6x2 vs 8x4)</li>
+<li><strong>Zona</strong></li>
+<li><strong>Tipo de operación</strong> (ej.: minería suele tener mayor exigencia)</li>
+</ul>
+<p><strong>Factor total = factor_ejes × factor_zona × factor_operación</strong></p>
+</section>
+<section id="paso-2-tarifa-base-clpkm" class="level3" data-number="2.4.2">
+<h3 data-number="2.4.2" class="anchored" data-anchor-id="paso-2-tarifa-base-clpkm"><span class="header-section-number">2.4.2</span> Paso 2 — Tarifa base (CLP/km)</h3>
+<p>Se define el kilometraje de un ciclo como:</p>
+<p><strong>km_ciclo = intervalo_km × 4</strong></p>
+<p>Luego:</p>
+<p><strong>tarifa_base = costo_ciclo / km_ciclo</strong></p>
+</section>
+<section id="paso-3-tarifa-con-factores" class="level3" data-number="2.4.3">
+<h3 data-number="2.4.3" class="anchored" data-anchor-id="paso-3-tarifa-con-factores"><span class="header-section-number">2.4.3</span> Paso 3 — Tarifa con factores</h3>
+<p><strong>tarifa_ajustada = tarifa_base × factor_total</strong></p>
+</section>
+<section id="paso-4-reajuste-mensual-usduf" class="level3" data-number="2.4.4">
+<h3 data-number="2.4.4" class="anchored" data-anchor-id="paso-4-reajuste-mensual-usduf"><span class="header-section-number">2.4.4</span> Paso 4 — Reajuste mensual (USD/UF)</h3>
+<p>Se proyecta una indexación mensual con dos supuestos:</p>
+<ul>
+<li>Un porcentaje mensual para USD</li>
+<li>Un porcentaje mensual para UF</li>
+</ul>
+<p>Y se combina según el <strong>peso</strong> definido (por ejemplo 80% USD y 20% UF).</p>
+</section>
+<section id="paso-5-pago-mensual-y-total" class="level3" data-number="2.4.5">
+<h3 data-number="2.4.5" class="anchored" data-anchor-id="paso-5-pago-mensual-y-total"><span class="header-section-number">2.4.5</span> Paso 5 — Pago mensual y total</h3>
+<p>Cada mes:</p>
+<p><strong>pago_mes = tarifa_mes × uso_mensual_km</strong></p>
+<p>Total contrato:</p>
+<p><strong>total_contrato = suma(pago_mes de todos los meses)</strong></p>
+</section>
+</section>
+<section id="diagramas" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="diagramas"><span class="header-section-number">2.5</span> 4.5 Diagramas</h2>
+<section id="flujo-de-datos-y-proceso" class="level3" data-number="2.5.1">
+<h3 data-number="2.5.1" class="anchored" data-anchor-id="flujo-de-datos-y-proceso"><span class="header-section-number">2.5.1</span> 4.5.1 Flujo de datos y proceso</h3>
+<div class="card">
+<div class="card-header">
+<p>Flujo de datos y proceso</p>
+</div>
+<div class="card-body">
+<div class="cell" data-layout-align="default">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>flowchart LR</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  U[Usuario ingresa datos] --&gt; V[Validación y limpieza]</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  V --&gt; C[Cálculo de tarifa y proyección]</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  C --&gt; O[Resultados en pantalla]</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  O --&gt; R[Cotización imprimible]</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  R --&gt; P[Imprimir / Guardar como PDF]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="arquitectura" class="level3" data-number="2.5.2">
+<h3 data-number="2.5.2" class="anchored" data-anchor-id="arquitectura"><span class="header-section-number">2.5.2</span> 4.5.2 Arquitectura</h3>
+<div class="card">
+<div class="card-header">
+<p>Arquitectura (alto nivel)</p>
+</div>
+<div class="card-body">
+<div class="cell" data-layout-align="default">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>flowchart TB</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  B[Navegador del usuario] &lt;--&gt; A[App Shiny (app.R)]</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  A --&gt; M[Motor de cálculo&lt;br/&gt;calcular_cotizacion()]</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  M --&gt; F[Factores&lt;br/&gt;(ejes / zona / operación)]</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  A --&gt; R[Reporte imprimible&lt;br/&gt;(HTML + CSS de impresión)]</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  A --&gt; L[Registro opcional&lt;br/&gt;(logs de uso / errores)]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="ejemplo-adicional-con-diagrammer" class="level3" data-number="2.5.3">
+<h3 data-number="2.5.3" class="anchored" data-anchor-id="ejemplo-adicional-con-diagrammer"><span class="header-section-number">2.5.3</span> 4.5.3 Ejemplo adicional con DiagrammeR</h3>
+<div class="card">
+<div class="card-header">
+<p>Diagrama alternativo (DiagrammeR) — referencia</p>
+</div>
+<div class="card-body">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>DiagrammeR<span class="sc">::</span><span class="fu">grViz</span>(<span class="st">"digraph {</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="st">  graph [layout = dot, rankdir = LR]</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="st">  node [shape = rectangle, style = filled, fillcolor = Linen]</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="st">  rec1 [label = 'Inputs']</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="st">  rec2 [label = 'Limpieza / validación']</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="st">  rec3 [label = 'Cálculo tarifa']</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="st">  rec4 [label = 'Proyección']</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="st">  rec5 [label = 'Cotización imprimible']</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="st">  rec6 [label = 'PDF (navegador)']</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="st">  rec1 -&gt; rec2 -&gt; rec3 -&gt; rec4 -&gt; rec5 -&gt; rec6</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="st">}"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="model-card-ficha-simple-del-modelo-y-reglas" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="model-card-ficha-simple-del-modelo-y-reglas"><span class="header-section-number">2.6</span> 4.6 Model Card (ficha simple del modelo y reglas)</h2>
+<p>Esta ficha resume el “modelo” usado por la app (en este caso, es un cálculo con reglas).</p>
+<ul>
+<li><strong>Nombre / versión:</strong> Cotizador Mantención v1.0</li>
+<li><strong>Qué entrega:</strong> tarifa CLP/km, pagos mensuales proyectados y total del contrato.</li>
+<li><strong>Entradas:</strong> ver sección 4.2.</li>
+<li><strong>Transformaciones:</strong> ver sección 4.3.</li>
+<li><strong>Supuestos clave:</strong>
+<ul>
+<li>1 ciclo se define como <code>intervalo_km × 4</code>.</li>
+<li>Los porcentajes mensuales de USD/UF se mantienen constantes (son supuestos).</li>
+<li>Los factores por ejes/zona/operación son fijos y multiplicativos.</li>
+</ul></li>
+<li><strong>Uso previsto:</strong> cotización preliminar estandarizada.</li>
+<li><strong>No previsto:</strong> reemplazar revisión final comercial/financiera ni condiciones legales del contrato.</li>
+<li><strong>Riesgos típicos:</strong>
+<ul>
+<li>Error de digitación (porcentajes muy grandes).</li>
+<li>Uso de supuestos de USD/UF desactualizados.</li>
+</ul></li>
+<li><strong>Mantenimiento recomendado:</strong> revisión mensual o trimestral de factores y supuestos.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="despliegue" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> 5. Despliegue</h1>
+<p>En este proyecto, “producción” significa que la solución queda disponible para uso real (más que una demo local), con control de versiones y un mínimo de orden.</p>
+<section id="opciones-de-publicación" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="opciones-de-publicación"><span class="header-section-number">3.1</span> 5.1 Opciones de publicación</h2>
+<ol type="1">
+<li><strong>shinyapps.io (rápido para demo académica)</strong>
+<ul>
+<li>Ventaja: publicación rápida.</li>
+<li>Desventaja: límites según plan y menor control.</li>
+</ul></li>
+<li><strong>Shiny Server (servidor propio)</strong>
+<ul>
+<li>Ventaja: control interno.</li>
+<li>Desventaja: requiere administración del servidor.</li>
+</ul></li>
+<li><strong>Posit Connect (enfoque empresa)</strong>
+<ul>
+<li>Ventaja: permisos, publicación ordenada, versionamiento.</li>
+<li>Desventaja: normalmente requiere licencia.</li>
+</ul></li>
+</ol>
+</section>
+<section id="pasos-recomendados" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="pasos-recomendados"><span class="header-section-number">3.2</span> 5.2 Pasos recomendados</h2>
+<ol type="1">
+<li><strong>Orden del proyecto</strong>
+<ul>
+<li><code>app.R</code></li>
+<li><code>assets/</code> (logo, etc.)</li>
+<li><code>docs/</code> (documentación)</li>
+</ul></li>
+<li><strong>Control de versiones (Git)</strong>
+<ul>
+<li>Versiones v1.0, v1.1, etc., con registro de cambios.</li>
+</ul></li>
+<li><strong>Configuraciones sin rutas fijas</strong>
+<ul>
+<li>Evitar rutas locales específicas.</li>
+<li>Usar rutas relativas o variables de entorno.</li>
+</ul></li>
+<li><strong>Publicación</strong>
+<ul>
+<li>Publicar en la opción elegida (demo o uso interno).</li>
+</ul></li>
+<li><strong>Responsables</strong>
+<ul>
+<li>Definir responsables para actualizar factores y supuestos.</li>
+</ul></li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="monitoreo" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> 6. Monitoreo</h1>
+<p>El monitoreo tiene dos partes:</p>
+<ol type="1">
+<li><strong>Operación:</strong> que la app cargue bien, no se caiga y responda rápido.</li>
+<li><strong>Sanidad del cálculo:</strong> que los resultados sigan siendo razonables.</li>
+</ol>
+<section id="monitoreo-de-funcionamiento" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="monitoreo-de-funcionamiento"><span class="header-section-number">4.1</span> 6.1 Monitoreo de funcionamiento</h2>
+<p><strong>Qué revisar:</strong></p>
+<ul>
+<li>Disponibilidad (¿la app abre?).</li>
+<li>Errores (validación o fallas inesperadas).</li>
+<li>Tiempo de respuesta.</li>
+</ul>
+<p><strong>Implementación mínima:</strong></p>
+<ul>
+<li>Registro de errores con fecha/hora y mensaje.</li>
+<li>Revisión periódica para detectar problemas repetidos.</li>
+</ul>
+</section>
+<section id="monitoreo-de-resultados" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="monitoreo-de-resultados"><span class="header-section-number">4.2</span> 6.2 Monitoreo de resultados</h2>
+<p>Alarmas simples que ayudan a detectar problemas:</p>
+<ul>
+<li>USD mensual o UF mensual fuera de rango razonable (ej.: mayor a 5% o menor a -5%).</li>
+<li>Total del contrato igual a 0 o negativo.</li>
+<li>Tarifas extremadamente altas o bajas respecto a lo habitual.</li>
+</ul>
+</section>
+<section id="registro-mínimo-recomendado-log" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="registro-mínimo-recomendado-log"><span class="header-section-number">4.3</span> 6.3 Registro mínimo recomendado (log)</h2>
+<p>Para auditoría y mejora continua, conviene registrar:</p>
+<ul>
+<li>Fecha/hora</li>
+<li>Inputs clave (km, costo, plazo, factores)</li>
+<li>Outputs clave (tarifa, total)</li>
+<li>Estado: OK / ERROR</li>
+</ul>
+<p>Ejemplo conceptual (referencia) para guardar un CSV:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>log_event <span class="ot">&lt;-</span> <span class="cf">function</span>(path, evento) {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">file.exists</span>(path)) {</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    readr<span class="sc">::</span><span class="fu">write_csv</span>(evento, path)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    readr<span class="sc">::</span><span class="fu">write_csv</span>(evento, path, <span class="at">append =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="gobierno-del-cambio" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="gobierno-del-cambio"><span class="header-section-number">4.4</span> 6.4 Gobierno del cambio</h2>
+<ul>
+<li>Si cambian los <strong>factores</strong> (ejes/zona/operación), se registra como nueva versión.</li>
+<li>Mantener 3 a 5 “casos de prueba” con inputs fijos y outputs esperados para detectar cambios inesperados.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="plan-de-acción" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Plan de acción</h1>
+<ol type="1">
+<li>Renderizar el documento en <strong>HTML</strong> y verificar diagramas.</li>
+<li>Generar PDF usando el navegador (<strong>Imprimir → Guardar como PDF</strong>).</li>
+<li>Definir alternativa de despliegue (demo vs uso interno).</li>
+<li>Documentar monitoreo mínimo (errores + rangos razonables).</li>
+</ol>
+<!-- -->
+
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Ejecutar el código</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Proyecto Finanzas en R — Entrega Final (Puntos 4, 5 y 6)"</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Esteban Arteaga"</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> last-modified</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="an">lang:</span><span class="co"> es</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-location: left</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">    number-sections: true</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: false</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co">    code-overflow: wrap</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="an">execute:</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co">  echo: true</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co">  eval: false</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co">  warning: false</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co">  message: false</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;style&gt;</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="in">/* Tarjetas (cards) más limpias */</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="in">.card { margin: 0.75rem 0 1rem 0; }</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="in">.card-header { font-weight: 600; }</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="in">/* Evita cortes horizontales en diagramas anchos */</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="in">.card-body { overflow-x: auto; }</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="in">/* Centra Mermaid dentro de la tarjeta */</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="in">.card-body .mermaid { display: flex; justify-content: center; }</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a><span class="in">/* Mejora de lectura en listas */</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="in">ul { margin-bottom: 0.75rem; }</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/style&gt;</span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a><span class="fu">## Resumen ejecutivo y valor agregado</span></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>La cotización de contratos de mantención suele depender de planillas y cálculos manuales, lo que genera:</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Diferencias entre cotizaciones (fórmulas y supuestos no estandarizados).</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Retrasos por iteraciones internas.</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Mayor probabilidad de errores por digitación o uso de archivos desactualizados.</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>La aplicación Shiny desarrollada en este proyecto ("Cotizador") estandariza el cálculo y entrega una cotización en **minutos**, dependiendo principalmente del tiempo que toma ingresar los datos y seleccionar las opciones.</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>**Valor agregado para la fuerza de ventas (vehículos/servicios):**</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Reduce el tiempo de respuesta**: de un ciclo típico de **24–48 horas** (proceso vigente) a **minutos**.</span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Consistencia**: mismas reglas para todos (menos discusiones internas y menos retrabajo).</span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Mejor conversación comercial**: permite entregar una propuesta rápida y comparable.</span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Presentación profesional**: salida clara y una vista imprimible para compartir con el cliente.</span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>**Valor agregado para el cliente:**</span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Menor tiempo de espera** para recibir una propuesta.</span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Transparencia**: supuestos visibles (factores e indexación) y cotización más fácil de revisar.</span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Menos cambios posteriores** por errores de cálculo o supuestos inconsistentes.</span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a><span class="fu">## Alcance del documento</span></span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>Este documento cubre los **puntos 4, 5 y 6** del proyecto del curso y deja una descripción clara de:</span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>4) Cómo funciona la solución (datos, validaciones, cálculo y diagramas).</span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>5) Cómo se podría publicar para uso real (despliegue).</span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>6) Qué monitorear para asegurar continuidad y calidad de resultados.</span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a><span class="fu"># Cómo renderizar y generar PDF</span></span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a><span class="fu">## Render HTML (recomendado)</span></span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Abrir este archivo <span class="in">`.qmd`</span> en RStudio.</span>
+<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Hacer click en **Render**.</span>
+<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Se generará un HTML (ideal para compartir, revisar e imprimir).</span>
+<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a><span class="fu">## Generar PDF</span></span>
+<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a>El método más estable para obtener PDF en distintos equipos es:</span>
+<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Renderizar a **HTML**.</span>
+<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Abrir el HTML en el navegador.</span>
+<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Usar **Imprimir → Guardar como PDF**.</span>
+<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a>Esto evita dependencias adicionales (como LaTeX) y mantiene el formato de los diagramas y secciones.</span>
+<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-89"><a href="#cb5-89" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb5-90"><a href="#cb5-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a><span class="fu"># 4. Documentación</span></span>
+<span id="cb5-92"><a href="#cb5-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-93"><a href="#cb5-93" aria-hidden="true" tabindex="-1"></a><span class="fu">## 4.1 Qué hace la solución y a quién impacta</span></span>
+<span id="cb5-94"><a href="#cb5-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-95"><a href="#cb5-95" aria-hidden="true" tabindex="-1"></a>**Situación actual en la compañía:** La generación de cotizaciones para **contratos de mantención** depende de cálculos manuales (planillas Excel, supuestos no siempre documentados y revisiones internas). Esto hace que el tiempo de respuesta habitual sea de **24 a 48 horas**, principalmente por iteraciones, validaciones y diferencias en criterios de cálculo.</span>
+<span id="cb5-96"><a href="#cb5-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-97"><a href="#cb5-97" aria-hidden="true" tabindex="-1"></a>**Problema que resuelve:**</span>
+<span id="cb5-98"><a href="#cb5-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-99"><a href="#cb5-99" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Cotizaciones inconsistentes (distintas fórmulas o supuestos según la persona).</span>
+<span id="cb5-100"><a href="#cb5-100" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Retrabajo y demoras por revisiones internas.</span>
+<span id="cb5-101"><a href="#cb5-101" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Riesgo de errores por digitación o uso de archivos desactualizados.</span>
+<span id="cb5-102"><a href="#cb5-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-103"><a href="#cb5-103" aria-hidden="true" tabindex="-1"></a>**Solución y valor agregado:** El **Cotizador** estandariza el proceso y permite generar una cotización **en minutos**, limitado principalmente al tiempo que toma ingresar los datos y seleccionar las opciones. Con esto se logra:</span>
+<span id="cb5-104"><a href="#cb5-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-105"><a href="#cb5-105" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Autonomía** para cotizar (sin depender de una sola persona o de planillas “propias”).</span>
+<span id="cb5-106"><a href="#cb5-106" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Estandarización** de reglas y supuestos (mismo criterio para todas las cotizaciones).</span>
+<span id="cb5-107"><a href="#cb5-107" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Menor variabilidad** entre propuestas y menor retrabajo por correcciones posteriores.</span>
+<span id="cb5-108"><a href="#cb5-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-109"><a href="#cb5-109" aria-hidden="true" tabindex="-1"></a>**Usuarios principales:** equipo comercial y/o operaciones.</span>
+<span id="cb5-110"><a href="#cb5-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-111"><a href="#cb5-111" aria-hidden="true" tabindex="-1"></a><span class="fu">## 4.2 Datos de entrada</span></span>
+<span id="cb5-112"><a href="#cb5-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-113"><a href="#cb5-113" aria-hidden="true" tabindex="-1"></a>A continuación se listan los campos más importantes y para qué sirven.</span>
+<span id="cb5-114"><a href="#cb5-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-115"><a href="#cb5-115" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Campo <span class="pp">|</span> Ejemplo <span class="pp">|</span> Para qué se usa <span class="pp">|</span></span>
+<span id="cb5-116"><a href="#cb5-116" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span>
+<span id="cb5-117"><a href="#cb5-117" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Cliente <span class="pp">|</span> "Transportes X" <span class="pp">|</span> Identificación en el reporte <span class="pp">|</span></span>
+<span id="cb5-118"><a href="#cb5-118" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Fecha inicio <span class="pp">|</span> 2026-02-01 <span class="pp">|</span> Genera el calendario mensual <span class="pp">|</span></span>
+<span id="cb5-119"><a href="#cb5-119" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Intervalo mantención (km) <span class="pp">|</span> 30.000 <span class="pp">|</span> Define los km del ciclo <span class="pp">|</span></span>
+<span id="cb5-120"><a href="#cb5-120" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Costo por ciclo (CLP) <span class="pp">|</span> 3.600.000 <span class="pp">|</span> Base del costo a repartir <span class="pp">|</span></span>
+<span id="cb5-121"><a href="#cb5-121" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Uso mensual (km/mes) <span class="pp">|</span> 10.000 <span class="pp">|</span> Calcula el pago mensual <span class="pp">|</span></span>
+<span id="cb5-122"><a href="#cb5-122" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Plazo (meses) <span class="pp">|</span> 36 <span class="pp">|</span> Cuántos meses se proyecta <span class="pp">|</span></span>
+<span id="cb5-123"><a href="#cb5-123" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Ejes <span class="pp">|</span> "6x2" <span class="pp">|</span> Factor por configuración <span class="pp">|</span></span>
+<span id="cb5-124"><a href="#cb5-124" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Zona <span class="pp">|</span> "Zona 02 Centro" <span class="pp">|</span> Factor por zona <span class="pp">|</span></span>
+<span id="cb5-125"><a href="#cb5-125" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Operación <span class="pp">|</span> "Minería" <span class="pp">|</span> Factor por exigencia <span class="pp">|</span></span>
+<span id="cb5-126"><a href="#cb5-126" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> USD mensual (%) <span class="pp">|</span> 0,5 <span class="pp">|</span> Supuesto de reajuste <span class="pp">|</span></span>
+<span id="cb5-127"><a href="#cb5-127" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> UF mensual (%) <span class="pp">|</span> 0,2 <span class="pp">|</span> Supuesto de reajuste <span class="pp">|</span></span>
+<span id="cb5-128"><a href="#cb5-128" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Peso USD (%) <span class="pp">|</span> 80 <span class="pp">|</span> Cuánto influye USD vs UF <span class="pp">|</span></span>
+<span id="cb5-129"><a href="#cb5-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-130"><a href="#cb5-130" aria-hidden="true" tabindex="-1"></a><span class="fu">## 4.3 Limpieza y validaciones</span></span>
+<span id="cb5-131"><a href="#cb5-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-132"><a href="#cb5-132" aria-hidden="true" tabindex="-1"></a>La app considera que la digitación puede venir en formato chileno:</span>
+<span id="cb5-133"><a href="#cb5-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-134"><a href="#cb5-134" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Miles con punto: <span class="in">`3.600.000`</span></span>
+<span id="cb5-135"><a href="#cb5-135" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Decimales con coma: <span class="in">`0,5`</span></span>
+<span id="cb5-136"><a href="#cb5-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-137"><a href="#cb5-137" aria-hidden="true" tabindex="-1"></a>**Qué se hace con esos datos:**</span>
+<span id="cb5-138"><a href="#cb5-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-139"><a href="#cb5-139" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Se limpia el texto (quita puntos de miles, convierte coma decimal a punto).</span>
+<span id="cb5-140"><a href="#cb5-140" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Se convierte a número.</span>
+<span id="cb5-141"><a href="#cb5-141" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Se validan condiciones mínimas:</span>
+<span id="cb5-142"><a href="#cb5-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-143"><a href="#cb5-143" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Intervalo, costo, uso mensual y meses deben ser **mayores a cero**.</span>
+<span id="cb5-144"><a href="#cb5-144" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>USD/UF mensual no puede ser **menor o igual a -100%**.</span>
+<span id="cb5-145"><a href="#cb5-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-146"><a href="#cb5-146" aria-hidden="true" tabindex="-1"></a>Estas validaciones no corrigen un dato mal ingresado, pero sí evitan errores graves (por ejemplo, meses = 0 o porcentajes imposibles).</span>
+<span id="cb5-147"><a href="#cb5-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-148"><a href="#cb5-148" aria-hidden="true" tabindex="-1"></a><span class="fu">## 4.4 Cómo se calcula</span></span>
+<span id="cb5-149"><a href="#cb5-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-150"><a href="#cb5-150" aria-hidden="true" tabindex="-1"></a><span class="fu">### Paso 1 — Factores por operación</span></span>
+<span id="cb5-151"><a href="#cb5-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-152"><a href="#cb5-152" aria-hidden="true" tabindex="-1"></a>Se aplica un factor multiplicativo según:</span>
+<span id="cb5-153"><a href="#cb5-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-154"><a href="#cb5-154" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Ejes** (ej.: 6x2 vs 8x4)</span>
+<span id="cb5-155"><a href="#cb5-155" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Zona**</span>
+<span id="cb5-156"><a href="#cb5-156" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Tipo de operación** (ej.: minería suele tener mayor exigencia)</span>
+<span id="cb5-157"><a href="#cb5-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-158"><a href="#cb5-158" aria-hidden="true" tabindex="-1"></a>**Factor total = factor_ejes × factor_zona × factor_operación**</span>
+<span id="cb5-159"><a href="#cb5-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-160"><a href="#cb5-160" aria-hidden="true" tabindex="-1"></a><span class="fu">### Paso 2 — Tarifa base (CLP/km)</span></span>
+<span id="cb5-161"><a href="#cb5-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-162"><a href="#cb5-162" aria-hidden="true" tabindex="-1"></a>Se define el kilometraje de un ciclo como:</span>
+<span id="cb5-163"><a href="#cb5-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-164"><a href="#cb5-164" aria-hidden="true" tabindex="-1"></a>**km_ciclo = intervalo_km × 4**</span>
+<span id="cb5-165"><a href="#cb5-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-166"><a href="#cb5-166" aria-hidden="true" tabindex="-1"></a>Luego:</span>
+<span id="cb5-167"><a href="#cb5-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-168"><a href="#cb5-168" aria-hidden="true" tabindex="-1"></a>**tarifa_base = costo_ciclo / km_ciclo**</span>
+<span id="cb5-169"><a href="#cb5-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-170"><a href="#cb5-170" aria-hidden="true" tabindex="-1"></a><span class="fu">### Paso 3 — Tarifa con factores</span></span>
+<span id="cb5-171"><a href="#cb5-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-172"><a href="#cb5-172" aria-hidden="true" tabindex="-1"></a>**tarifa_ajustada = tarifa_base × factor_total**</span>
+<span id="cb5-173"><a href="#cb5-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-174"><a href="#cb5-174" aria-hidden="true" tabindex="-1"></a><span class="fu">### Paso 4 — Reajuste mensual (USD/UF)</span></span>
+<span id="cb5-175"><a href="#cb5-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-176"><a href="#cb5-176" aria-hidden="true" tabindex="-1"></a>Se proyecta una indexación mensual con dos supuestos:</span>
+<span id="cb5-177"><a href="#cb5-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-178"><a href="#cb5-178" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Un porcentaje mensual para USD</span>
+<span id="cb5-179"><a href="#cb5-179" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Un porcentaje mensual para UF</span>
+<span id="cb5-180"><a href="#cb5-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-181"><a href="#cb5-181" aria-hidden="true" tabindex="-1"></a>Y se combina según el **peso** definido (por ejemplo 80% USD y 20% UF).</span>
+<span id="cb5-182"><a href="#cb5-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-183"><a href="#cb5-183" aria-hidden="true" tabindex="-1"></a><span class="fu">### Paso 5 — Pago mensual y total</span></span>
+<span id="cb5-184"><a href="#cb5-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-185"><a href="#cb5-185" aria-hidden="true" tabindex="-1"></a>Cada mes:</span>
+<span id="cb5-186"><a href="#cb5-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-187"><a href="#cb5-187" aria-hidden="true" tabindex="-1"></a>**pago_mes = tarifa_mes × uso_mensual_km**</span>
+<span id="cb5-188"><a href="#cb5-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-189"><a href="#cb5-189" aria-hidden="true" tabindex="-1"></a>Total contrato:</span>
+<span id="cb5-190"><a href="#cb5-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-191"><a href="#cb5-191" aria-hidden="true" tabindex="-1"></a>**total_contrato = suma(pago_mes de todos los meses)**</span>
+<span id="cb5-192"><a href="#cb5-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-193"><a href="#cb5-193" aria-hidden="true" tabindex="-1"></a><span class="fu">## 4.5 Diagramas</span></span>
+<span id="cb5-194"><a href="#cb5-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-195"><a href="#cb5-195" aria-hidden="true" tabindex="-1"></a><span class="fu">### 4.5.1 Flujo de datos y proceso</span></span>
+<span id="cb5-196"><a href="#cb5-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-197"><a href="#cb5-197" aria-hidden="true" tabindex="-1"></a>::: {.card}</span>
+<span id="cb5-198"><a href="#cb5-198" aria-hidden="true" tabindex="-1"></a>::: {.card-header}</span>
+<span id="cb5-199"><a href="#cb5-199" aria-hidden="true" tabindex="-1"></a>Flujo de datos y proceso</span>
+<span id="cb5-200"><a href="#cb5-200" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb5-201"><a href="#cb5-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-202"><a href="#cb5-202" aria-hidden="true" tabindex="-1"></a>::: {.card-body}</span>
+<span id="cb5-205"><a href="#cb5-205" aria-hidden="true" tabindex="-1"></a><span class="in">```{mermaid}</span></span>
+<span id="cb5-206"><a href="#cb5-206" aria-hidden="true" tabindex="-1"></a>flowchart LR</span>
+<span id="cb5-207"><a href="#cb5-207" aria-hidden="true" tabindex="-1"></a>  U[Usuario ingresa datos] --&gt; V[Validación y limpieza]</span>
+<span id="cb5-208"><a href="#cb5-208" aria-hidden="true" tabindex="-1"></a>  V --&gt; C[Cálculo de tarifa y proyección]</span>
+<span id="cb5-209"><a href="#cb5-209" aria-hidden="true" tabindex="-1"></a>  C --&gt; O[Resultados en pantalla]</span>
+<span id="cb5-210"><a href="#cb5-210" aria-hidden="true" tabindex="-1"></a>  O --&gt; R[Cotización imprimible]</span>
+<span id="cb5-211"><a href="#cb5-211" aria-hidden="true" tabindex="-1"></a>  R --&gt; P[Imprimir / Guardar como PDF]</span>
+<span id="cb5-212"><a href="#cb5-212" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb5-213"><a href="#cb5-213" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb5-214"><a href="#cb5-214" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb5-215"><a href="#cb5-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-216"><a href="#cb5-216" aria-hidden="true" tabindex="-1"></a><span class="fu">### 4.5.2 Arquitectura</span></span>
+<span id="cb5-217"><a href="#cb5-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-218"><a href="#cb5-218" aria-hidden="true" tabindex="-1"></a>::: {.card}</span>
+<span id="cb5-219"><a href="#cb5-219" aria-hidden="true" tabindex="-1"></a>::: {.card-header}</span>
+<span id="cb5-220"><a href="#cb5-220" aria-hidden="true" tabindex="-1"></a>Arquitectura (alto nivel)</span>
+<span id="cb5-221"><a href="#cb5-221" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb5-222"><a href="#cb5-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-223"><a href="#cb5-223" aria-hidden="true" tabindex="-1"></a>::: {.card-body}</span>
+<span id="cb5-226"><a href="#cb5-226" aria-hidden="true" tabindex="-1"></a><span class="in">```{mermaid}</span></span>
+<span id="cb5-227"><a href="#cb5-227" aria-hidden="true" tabindex="-1"></a>flowchart TB</span>
+<span id="cb5-228"><a href="#cb5-228" aria-hidden="true" tabindex="-1"></a>  B[Navegador del usuario] &lt;--&gt; A[App Shiny (app.R)]</span>
+<span id="cb5-229"><a href="#cb5-229" aria-hidden="true" tabindex="-1"></a>  A --&gt; M[Motor de cálculo&lt;br/&gt;calcular_cotizacion()]</span>
+<span id="cb5-230"><a href="#cb5-230" aria-hidden="true" tabindex="-1"></a>  M --&gt; F[Factores&lt;br/&gt;(ejes / zona / operación)]</span>
+<span id="cb5-231"><a href="#cb5-231" aria-hidden="true" tabindex="-1"></a>  A --&gt; R[Reporte imprimible&lt;br/&gt;(HTML + CSS de impresión)]</span>
+<span id="cb5-232"><a href="#cb5-232" aria-hidden="true" tabindex="-1"></a>  A --&gt; L[Registro opcional&lt;br/&gt;(logs de uso / errores)]</span>
+<span id="cb5-233"><a href="#cb5-233" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb5-234"><a href="#cb5-234" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb5-235"><a href="#cb5-235" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb5-236"><a href="#cb5-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-237"><a href="#cb5-237" aria-hidden="true" tabindex="-1"></a><span class="fu">### 4.5.3 Ejemplo adicional con DiagrammeR</span></span>
+<span id="cb5-238"><a href="#cb5-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-239"><a href="#cb5-239" aria-hidden="true" tabindex="-1"></a>::: {.card}</span>
+<span id="cb5-240"><a href="#cb5-240" aria-hidden="true" tabindex="-1"></a>::: {.card-header}</span>
+<span id="cb5-241"><a href="#cb5-241" aria-hidden="true" tabindex="-1"></a>Diagrama alternativo (DiagrammeR) — referencia</span>
+<span id="cb5-242"><a href="#cb5-242" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb5-243"><a href="#cb5-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-244"><a href="#cb5-244" aria-hidden="true" tabindex="-1"></a>::: {.card-body}</span>
+<span id="cb5-245"><a href="#cb5-245" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, eval=FALSE}</span></span>
+<span id="cb5-246"><a href="#cb5-246" aria-hidden="true" tabindex="-1"></a>DiagrammeR<span class="sc">::</span><span class="fu">grViz</span>(<span class="st">"digraph {</span></span>
+<span id="cb5-247"><a href="#cb5-247" aria-hidden="true" tabindex="-1"></a><span class="st">  graph [layout = dot, rankdir = LR]</span></span>
+<span id="cb5-248"><a href="#cb5-248" aria-hidden="true" tabindex="-1"></a><span class="st">  node [shape = rectangle, style = filled, fillcolor = Linen]</span></span>
+<span id="cb5-249"><a href="#cb5-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-250"><a href="#cb5-250" aria-hidden="true" tabindex="-1"></a><span class="st">  rec1 [label = 'Inputs']</span></span>
+<span id="cb5-251"><a href="#cb5-251" aria-hidden="true" tabindex="-1"></a><span class="st">  rec2 [label = 'Limpieza / validación']</span></span>
+<span id="cb5-252"><a href="#cb5-252" aria-hidden="true" tabindex="-1"></a><span class="st">  rec3 [label = 'Cálculo tarifa']</span></span>
+<span id="cb5-253"><a href="#cb5-253" aria-hidden="true" tabindex="-1"></a><span class="st">  rec4 [label = 'Proyección']</span></span>
+<span id="cb5-254"><a href="#cb5-254" aria-hidden="true" tabindex="-1"></a><span class="st">  rec5 [label = 'Cotización imprimible']</span></span>
+<span id="cb5-255"><a href="#cb5-255" aria-hidden="true" tabindex="-1"></a><span class="st">  rec6 [label = 'PDF (navegador)']</span></span>
+<span id="cb5-256"><a href="#cb5-256" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-257"><a href="#cb5-257" aria-hidden="true" tabindex="-1"></a><span class="st">  rec1 -&gt; rec2 -&gt; rec3 -&gt; rec4 -&gt; rec5 -&gt; rec6</span></span>
+<span id="cb5-258"><a href="#cb5-258" aria-hidden="true" tabindex="-1"></a><span class="st">}"</span>)</span>
+<span id="cb5-259"><a href="#cb5-259" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb5-260"><a href="#cb5-260" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb5-261"><a href="#cb5-261" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb5-262"><a href="#cb5-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-263"><a href="#cb5-263" aria-hidden="true" tabindex="-1"></a><span class="fu">## 4.6 Model Card (ficha simple del modelo y reglas)</span></span>
+<span id="cb5-264"><a href="#cb5-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-265"><a href="#cb5-265" aria-hidden="true" tabindex="-1"></a>Esta ficha resume el “modelo” usado por la app (en este caso, es un cálculo con reglas).</span>
+<span id="cb5-266"><a href="#cb5-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-267"><a href="#cb5-267" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Nombre / versión:** Cotizador Mantención v1.0</span>
+<span id="cb5-268"><a href="#cb5-268" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Qué entrega:** tarifa CLP/km, pagos mensuales proyectados y total del contrato.</span>
+<span id="cb5-269"><a href="#cb5-269" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Entradas:** ver sección 4.2.</span>
+<span id="cb5-270"><a href="#cb5-270" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Transformaciones:** ver sección 4.3.</span>
+<span id="cb5-271"><a href="#cb5-271" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Supuestos clave:**</span>
+<span id="cb5-272"><a href="#cb5-272" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>1 ciclo se define como <span class="in">`intervalo_km × 4`</span>.</span>
+<span id="cb5-273"><a href="#cb5-273" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Los porcentajes mensuales de USD/UF se mantienen constantes (son supuestos).</span>
+<span id="cb5-274"><a href="#cb5-274" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Los factores por ejes/zona/operación son fijos y multiplicativos.</span>
+<span id="cb5-275"><a href="#cb5-275" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Uso previsto:** cotización preliminar estandarizada.</span>
+<span id="cb5-276"><a href="#cb5-276" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**No previsto:** reemplazar revisión final comercial/financiera ni condiciones legales del contrato.</span>
+<span id="cb5-277"><a href="#cb5-277" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Riesgos típicos:**</span>
+<span id="cb5-278"><a href="#cb5-278" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Error de digitación (porcentajes muy grandes).</span>
+<span id="cb5-279"><a href="#cb5-279" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Uso de supuestos de USD/UF desactualizados.</span>
+<span id="cb5-280"><a href="#cb5-280" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Mantenimiento recomendado:** revisión mensual o trimestral de factores y supuestos.</span>
+<span id="cb5-281"><a href="#cb5-281" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-282"><a href="#cb5-282" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb5-283"><a href="#cb5-283" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-284"><a href="#cb5-284" aria-hidden="true" tabindex="-1"></a><span class="fu"># 5. Despliegue</span></span>
+<span id="cb5-285"><a href="#cb5-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-286"><a href="#cb5-286" aria-hidden="true" tabindex="-1"></a>En este proyecto, “producción” significa que la solución queda disponible para uso real (más que una demo local), con control de versiones y un mínimo de orden.</span>
+<span id="cb5-287"><a href="#cb5-287" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-288"><a href="#cb5-288" aria-hidden="true" tabindex="-1"></a><span class="fu">## 5.1 Opciones de publicación</span></span>
+<span id="cb5-289"><a href="#cb5-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-290"><a href="#cb5-290" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**shinyapps.io (rápido para demo académica)**</span>
+<span id="cb5-291"><a href="#cb5-291" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Ventaja: publicación rápida.</span>
+<span id="cb5-292"><a href="#cb5-292" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Desventaja: límites según plan y menor control.</span>
+<span id="cb5-293"><a href="#cb5-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-294"><a href="#cb5-294" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Shiny Server (servidor propio)**</span>
+<span id="cb5-295"><a href="#cb5-295" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Ventaja: control interno.</span>
+<span id="cb5-296"><a href="#cb5-296" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Desventaja: requiere administración del servidor.</span>
+<span id="cb5-297"><a href="#cb5-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-298"><a href="#cb5-298" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Posit Connect (enfoque empresa)**</span>
+<span id="cb5-299"><a href="#cb5-299" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Ventaja: permisos, publicación ordenada, versionamiento.</span>
+<span id="cb5-300"><a href="#cb5-300" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Desventaja: normalmente requiere licencia.</span>
+<span id="cb5-301"><a href="#cb5-301" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-302"><a href="#cb5-302" aria-hidden="true" tabindex="-1"></a><span class="fu">## 5.2 Pasos recomendados</span></span>
+<span id="cb5-303"><a href="#cb5-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-304"><a href="#cb5-304" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Orden del proyecto**</span>
+<span id="cb5-305"><a href="#cb5-305" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span><span class="in">`app.R`</span></span>
+<span id="cb5-306"><a href="#cb5-306" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span><span class="in">`assets/`</span> (logo, etc.)</span>
+<span id="cb5-307"><a href="#cb5-307" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span><span class="in">`docs/`</span> (documentación)</span>
+<span id="cb5-308"><a href="#cb5-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-309"><a href="#cb5-309" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Control de versiones (Git)**</span>
+<span id="cb5-310"><a href="#cb5-310" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Versiones v1.0, v1.1, etc., con registro de cambios.</span>
+<span id="cb5-311"><a href="#cb5-311" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-312"><a href="#cb5-312" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Configuraciones sin rutas fijas**</span>
+<span id="cb5-313"><a href="#cb5-313" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Evitar rutas locales específicas.</span>
+<span id="cb5-314"><a href="#cb5-314" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Usar rutas relativas o variables de entorno.</span>
+<span id="cb5-315"><a href="#cb5-315" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-316"><a href="#cb5-316" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Publicación**</span>
+<span id="cb5-317"><a href="#cb5-317" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Publicar en la opción elegida (demo o uso interno).</span>
+<span id="cb5-318"><a href="#cb5-318" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-319"><a href="#cb5-319" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Responsables**</span>
+<span id="cb5-320"><a href="#cb5-320" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Definir responsables para actualizar factores y supuestos.</span>
+<span id="cb5-321"><a href="#cb5-321" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-322"><a href="#cb5-322" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb5-323"><a href="#cb5-323" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-324"><a href="#cb5-324" aria-hidden="true" tabindex="-1"></a><span class="fu"># 6. Monitoreo</span></span>
+<span id="cb5-325"><a href="#cb5-325" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-326"><a href="#cb5-326" aria-hidden="true" tabindex="-1"></a>El monitoreo tiene dos partes:</span>
+<span id="cb5-327"><a href="#cb5-327" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-328"><a href="#cb5-328" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Operación:** que la app cargue bien, no se caiga y responda rápido.</span>
+<span id="cb5-329"><a href="#cb5-329" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Sanidad del cálculo:** que los resultados sigan siendo razonables.</span>
+<span id="cb5-330"><a href="#cb5-330" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-331"><a href="#cb5-331" aria-hidden="true" tabindex="-1"></a><span class="fu">## 6.1 Monitoreo de funcionamiento</span></span>
+<span id="cb5-332"><a href="#cb5-332" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-333"><a href="#cb5-333" aria-hidden="true" tabindex="-1"></a>**Qué revisar:**</span>
+<span id="cb5-334"><a href="#cb5-334" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-335"><a href="#cb5-335" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Disponibilidad (¿la app abre?).</span>
+<span id="cb5-336"><a href="#cb5-336" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Errores (validación o fallas inesperadas).</span>
+<span id="cb5-337"><a href="#cb5-337" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Tiempo de respuesta.</span>
+<span id="cb5-338"><a href="#cb5-338" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-339"><a href="#cb5-339" aria-hidden="true" tabindex="-1"></a>**Implementación mínima:**</span>
+<span id="cb5-340"><a href="#cb5-340" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-341"><a href="#cb5-341" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Registro de errores con fecha/hora y mensaje.</span>
+<span id="cb5-342"><a href="#cb5-342" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Revisión periódica para detectar problemas repetidos.</span>
+<span id="cb5-343"><a href="#cb5-343" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-344"><a href="#cb5-344" aria-hidden="true" tabindex="-1"></a><span class="fu">## 6.2 Monitoreo de resultados</span></span>
+<span id="cb5-345"><a href="#cb5-345" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-346"><a href="#cb5-346" aria-hidden="true" tabindex="-1"></a>Alarmas simples que ayudan a detectar problemas:</span>
+<span id="cb5-347"><a href="#cb5-347" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-348"><a href="#cb5-348" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>USD mensual o UF mensual fuera de rango razonable (ej.: mayor a 5% o menor a -5%).</span>
+<span id="cb5-349"><a href="#cb5-349" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Total del contrato igual a 0 o negativo.</span>
+<span id="cb5-350"><a href="#cb5-350" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Tarifas extremadamente altas o bajas respecto a lo habitual.</span>
+<span id="cb5-351"><a href="#cb5-351" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-352"><a href="#cb5-352" aria-hidden="true" tabindex="-1"></a><span class="fu">## 6.3 Registro mínimo recomendado (log)</span></span>
+<span id="cb5-353"><a href="#cb5-353" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-354"><a href="#cb5-354" aria-hidden="true" tabindex="-1"></a>Para auditoría y mejora continua, conviene registrar:</span>
+<span id="cb5-355"><a href="#cb5-355" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-356"><a href="#cb5-356" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Fecha/hora</span>
+<span id="cb5-357"><a href="#cb5-357" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Inputs clave (km, costo, plazo, factores)</span>
+<span id="cb5-358"><a href="#cb5-358" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Outputs clave (tarifa, total)</span>
+<span id="cb5-359"><a href="#cb5-359" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Estado: OK / ERROR</span>
+<span id="cb5-360"><a href="#cb5-360" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-361"><a href="#cb5-361" aria-hidden="true" tabindex="-1"></a>Ejemplo conceptual (referencia) para guardar un CSV:</span>
+<span id="cb5-362"><a href="#cb5-362" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-363"><a href="#cb5-363" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, eval=FALSE}</span></span>
+<span id="cb5-364"><a href="#cb5-364" aria-hidden="true" tabindex="-1"></a>log_event <span class="ot">&lt;-</span> <span class="cf">function</span>(path, evento) {</span>
+<span id="cb5-365"><a href="#cb5-365" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">file.exists</span>(path)) {</span>
+<span id="cb5-366"><a href="#cb5-366" aria-hidden="true" tabindex="-1"></a>    readr<span class="sc">::</span><span class="fu">write_csv</span>(evento, path)</span>
+<span id="cb5-367"><a href="#cb5-367" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb5-368"><a href="#cb5-368" aria-hidden="true" tabindex="-1"></a>    readr<span class="sc">::</span><span class="fu">write_csv</span>(evento, path, <span class="at">append =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-369"><a href="#cb5-369" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-370"><a href="#cb5-370" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-371"><a href="#cb5-371" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb5-372"><a href="#cb5-372" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-373"><a href="#cb5-373" aria-hidden="true" tabindex="-1"></a><span class="fu">## 6.4 Gobierno del cambio</span></span>
+<span id="cb5-374"><a href="#cb5-374" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-375"><a href="#cb5-375" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Si cambian los **factores** (ejes/zona/operación), se registra como nueva versión.</span>
+<span id="cb5-376"><a href="#cb5-376" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Mantener 3 a 5 “casos de prueba” con inputs fijos y outputs esperados para detectar cambios inesperados.</span>
+<span id="cb5-377"><a href="#cb5-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-378"><a href="#cb5-378" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb5-379"><a href="#cb5-379" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-380"><a href="#cb5-380" aria-hidden="true" tabindex="-1"></a><span class="fu"># Plan de acción</span></span>
+<span id="cb5-381"><a href="#cb5-381" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-382"><a href="#cb5-382" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Renderizar el documento en **HTML** y verificar diagramas.</span>
+<span id="cb5-383"><a href="#cb5-383" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Generar PDF usando el navegador (**Imprimir → Guardar como PDF**).</span>
+<span id="cb5-384"><a href="#cb5-384" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Definir alternativa de despliegue (demo vs uso interno).</span>
+<span id="cb5-385"><a href="#cb5-385" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Documentar monitoreo mínimo (errores + rangos razonables).</span>
+</code></pre></div><button title="Copiar al portapapeles" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
