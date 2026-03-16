@@ -24,11 +24,15 @@ import os
 from pathlib import Path
 
 import matplotlib
-matplotlib.use("Agg")
+MOSTRAR_GRAFICOS = any(
+    variable in os.environ
+    for variable in ["SPYDER_ARGS", "SPY_RUN_CYTHON", "JPY_PARENT_PID"]
+)
+if not MOSTRAR_GRAFICOS:
+    matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import seaborn as sns
 from scipy.optimize import linear_sum_assignment
 from sklearn.cluster import KMeans
 from sklearn.metrics import confusion_matrix, mean_squared_error, silhouette_score
@@ -42,7 +46,7 @@ os.environ["LOKY_MAX_CPU_COUNT"] = "4"
 np.set_printoptions(precision=4, suppress=True)
 pd.set_option("display.max_columns", None)
 pd.set_option("display.width", 120)
-sns.set_theme(style="whitegrid")
+plt.style.use("seaborn-v0_8-whitegrid")
 
 
 #%%
@@ -329,18 +333,25 @@ axes[1].set_ylabel("Silhouette score")
 axes[1].legend()
 plt.tight_layout()
 plt.savefig(OUTPUT_DIR / "01_elbow_silhouette.png", dpi=300, bbox_inches="tight")
+if MOSTRAR_GRAFICOS:
+    plt.show()
 plt.close()
 
 # Grafico 2: dispersion de clientes por ingresos de vehiculos y taller.
 plt.figure(figsize=(10, 7))
-sns.scatterplot(
-    data=df_modelo,
-    x="REVENUE_TOTAL_VEHICULOS",
-    y="REVENUE_TALLER_TOTAL",
-    hue="Segmento",
-    palette="viridis",
-    s=90,
-)
+colores_segmento = {"Valor bajo": "#440154", "Valor medio": "#21918c", "Valor alto": "#fde725"}
+
+for segmento, color in colores_segmento.items():
+    datos_segmento = df_modelo[df_modelo["Segmento"] == segmento]
+    plt.scatter(
+        datos_segmento["REVENUE_TOTAL_VEHICULOS"],
+        datos_segmento["REVENUE_TALLER_TOTAL"],
+        label=segmento,
+        color=color,
+        s=90,
+        alpha=0.8,
+    )
+
 plt.xscale("log")
 plt.yscale("log")
 plt.title("Clientes segmentados por valor comercial")
@@ -349,49 +360,68 @@ plt.ylabel("Revenue taller total (escala log)")
 plt.legend(title="Segmento")
 plt.tight_layout()
 plt.savefig(OUTPUT_DIR / "02_clientes_segmentados.png", dpi=300, bbox_inches="tight")
+if MOSTRAR_GRAFICOS:
+    plt.show()
 plt.close()
 
 # Grafico 3: boxplots para comparar la distribucion de ingresos por segmento.
 fig, axes = plt.subplots(1, 2, figsize=(14, 5))
-sns.boxplot(
-    data=df_modelo,
-    x="Segmento",
-    y="REVENUE_TOTAL_VEHICULOS",
-    hue="Segmento",
-    palette="viridis",
-    legend=False,
-    ax=axes[0],
+segmentos_ordenados = ["Valor bajo", "Valor medio", "Valor alto"]
+datos_box_vehiculos = [
+    df_modelo.loc[df_modelo["Segmento"] == segmento, "REVENUE_TOTAL_VEHICULOS"]
+    for segmento in segmentos_ordenados
+]
+box1 = axes[0].boxplot(
+    datos_box_vehiculos,
+    patch_artist=True,
+    tick_labels=segmentos_ordenados,
 )
+for patch, segmento in zip(box1["boxes"], segmentos_ordenados):
+    patch.set_facecolor(colores_segmento[segmento])
 axes[0].set_yscale("log")
 axes[0].set_title("Revenue vehiculos por segmento")
 axes[0].set_xlabel("Segmento")
 axes[0].set_ylabel("Revenue vehiculos (escala log)")
 
-sns.boxplot(
-    data=df_modelo,
-    x="Segmento",
-    y="REVENUE_TALLER_TOTAL",
-    hue="Segmento",
-    palette="viridis",
-    legend=False,
-    ax=axes[1],
+datos_box_taller = [
+    df_modelo.loc[df_modelo["Segmento"] == segmento, "REVENUE_TALLER_TOTAL"]
+    for segmento in segmentos_ordenados
+]
+box2 = axes[1].boxplot(
+    datos_box_taller,
+    patch_artist=True,
+    tick_labels=segmentos_ordenados,
 )
+for patch, segmento in zip(box2["boxes"], segmentos_ordenados):
+    patch.set_facecolor(colores_segmento[segmento])
 axes[1].set_yscale("log")
 axes[1].set_title("Revenue taller por segmento")
 axes[1].set_xlabel("Segmento")
 axes[1].set_ylabel("Revenue taller (escala log)")
 plt.tight_layout()
 plt.savefig(OUTPUT_DIR / "03_boxplots_segmentos.png", dpi=300, bbox_inches="tight")
+if MOSTRAR_GRAFICOS:
+    plt.show()
 plt.close()
 
 # Grafico 4: matriz de confusion para visualizar el ajuste en el conjunto de prueba.
-plt.figure(figsize=(7, 5))
-sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", cbar=False)
-plt.title("Matriz de confusion de clusters alineados")
-plt.xlabel("Cluster predicho")
-plt.ylabel("Cluster real")
+fig, ax = plt.subplots(figsize=(7, 5))
+imagen = ax.imshow(cm, cmap="Blues")
+ax.set_title("Matriz de confusion de clusters alineados")
+ax.set_xlabel("Cluster predicho")
+ax.set_ylabel("Cluster real")
+ax.set_xticks(range(cm.shape[1]))
+ax.set_yticks(range(cm.shape[0]))
+
+for i in range(cm.shape[0]):
+    for j in range(cm.shape[1]):
+        ax.text(j, i, cm[i, j], ha="center", va="center", color="black")
+
+fig.colorbar(imagen, ax=ax)
 plt.tight_layout()
 plt.savefig(OUTPUT_DIR / "04_matriz_confusion.png", dpi=300, bbox_inches="tight")
+if MOSTRAR_GRAFICOS:
+    plt.show()
 plt.close()
 
 
