@@ -1,0 +1,23 @@
+TRABAJO 2 - CLASIFICACION DE CLIENTES
+
+Registros usados: 923
+Variables de entrada: N_COMPRAS, MONTO_TOTAL, DIAS_RECENCIA, MONTO_PROMEDIO, TIPO_CLIENTE, ZONA
+Etiqueta de negocio: SEGMENTO = BAJO / MEDIO / ALTO
+
+Accuracy test: 0.9524
+
+Matriz de confusion:
+[[76  1  0]
+ [ 2 73  2]
+ [ 0  6 71]]
+
+Classification report:
+              precision    recall  f1-score   support
+
+        BAJO     0.9744    0.9870    0.9806        77
+       MEDIO     0.9125    0.9481    0.9299        77
+        ALTO     0.9726    0.9221    0.9467        77
+
+    accuracy                         0.9524       231
+   macro avg     0.9532    0.9524    0.9524       231
+weighted avg     0.9532    0.9524    0.9524       231
